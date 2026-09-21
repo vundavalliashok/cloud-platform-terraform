@@ -53,3 +53,42 @@ output "private_subnet_ids" {
   description = "Private subnet IDs."
   value       = module.networking.private_subnet_ids
 }
+
+module "eks" {
+  source = "../../modules/eks"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  cluster_name    = var.cluster_name
+  cluster_version = var.cluster_version
+
+  vpc_id             = module.networking.vpc_id
+  private_subnet_ids = module.networking.private_subnet_ids
+
+  node_instance_types = var.node_instance_types
+
+  node_min_size     = var.node_min_size
+  node_max_size     = var.node_max_size
+  node_desired_size = var.node_desired_size
+}
+
+output "eks_cluster_name" {
+  description = "EKS cluster name."
+  value       = module.eks.cluster_name
+}
+
+output "eks_cluster_endpoint" {
+  description = "EKS cluster API endpoint."
+  value       = module.eks.cluster_endpoint
+}
+
+output "eks_cluster_version" {
+  description = "EKS Kubernetes version."
+  value       = module.eks.cluster_version
+}
+
+output "eks_oidc_provider_arn" {
+  description = "EKS OIDC provider ARN."
+  value       = module.eks.oidc_provider_arn
+}

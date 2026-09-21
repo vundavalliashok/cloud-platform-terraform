@@ -1,35 +1,35 @@
-variable "aws_region" {
-  description = "AWS region where infrastructure will be deployed."
+variable "project_name" {
+  description = "Project name used for resource naming."
   type        = string
-  default     = "ap-south-1"
 }
 
 variable "environment" {
   description = "Deployment environment."
   type        = string
-  default     = "dev"
-}
-
-variable "project_name" {
-  description = "Project name used for resource naming."
-  type        = string
-  default     = "cloud-platform"
 }
 
 variable "cluster_name" {
   description = "EKS cluster name."
   type        = string
-  default     = "cloud-platform-dev"
 }
 
 variable "cluster_version" {
-  description = "Kubernetes version."
+  description = "Kubernetes version for the EKS cluster."
   type        = string
-  default     = "1.33"
+}
+
+variable "vpc_id" {
+  description = "VPC ID where EKS will be deployed."
+  type        = string
+}
+
+variable "private_subnet_ids" {
+  description = "Private subnet IDs for EKS."
+  type        = list(string)
 }
 
 variable "node_instance_types" {
-  description = "EKS node instance types."
+  description = "EC2 instance types for EKS managed nodes."
   type        = list(string)
 
   default = [
@@ -38,20 +38,19 @@ variable "node_instance_types" {
 }
 
 variable "node_min_size" {
-  description = "Minimum EKS nodes."
+  description = "Minimum number of EKS nodes."
   type        = number
   default     = 2
 }
 
 variable "node_max_size" {
-  description = "Maximum EKS nodes."
+  description = "Maximum number of EKS nodes."
   type        = number
   default     = 4
 }
 
 variable "node_desired_size" {
-  description = "Desired EKS nodes."
+  description = "Desired number of EKS nodes."
   type        = number
   default     = 2
 }
-
