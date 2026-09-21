@@ -2,6 +2,33 @@ data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
 
+module "networking" {
+  source = "../../modules/networking"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_cidr = "10.0.0.0/16"
+
+  availability_zones = [
+    "ap-south-1a",
+    "ap-south-1b"
+  ]
+
+  public_subnet_cidrs = [
+    "10.0.1.0/24",
+    "10.0.2.0/24"
+  ]
+
+  private_subnet_cidrs = [
+    "10.0.11.0/24",
+    "10.0.12.0/24"
+  ]
+
+  enable_nat_gateway = true
+  single_nat_gateway = false
+}
+
 output "aws_account_id" {
   description = "AWS account ID."
   value       = data.aws_caller_identity.current.account_id
@@ -9,5 +36,20 @@ output "aws_account_id" {
 
 output "aws_region" {
   description = "AWS region."
-  value       = data.aws_region.current.name
+  value       = data.aws_region.current.region
+}
+
+output "vpc_id" {
+  description = "VPC ID."
+  value       = module.networking.vpc_id
+}
+
+output "public_subnet_ids" {
+  description = "Public subnet IDs."
+  value       = module.networking.public_subnet_ids
+}
+
+output "private_subnet_ids" {
+  description = "Private subnet IDs."
+  value       = module.networking.private_subnet_ids
 }
