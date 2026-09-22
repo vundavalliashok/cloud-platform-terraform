@@ -110,3 +110,26 @@ module "iam" {
   )
 }
 
+module "rds" {
+  source = "../../modules/rds"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id = module.networking.vpc_id
+
+  vpc_cidr = "10.0.0.0/16"
+
+  private_subnet_ids = module.networking.private_subnet_ids
+
+  database_name = var.database_name
+
+  engine_version = var.database_engine_version
+
+  instance_class = var.database_instance_class
+
+  multi_az = var.database_multi_az
+
+  deletion_protection = false
+  skip_final_snapshot = true
+}
