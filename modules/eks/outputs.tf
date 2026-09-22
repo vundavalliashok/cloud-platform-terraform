@@ -32,3 +32,7 @@ output "oidc_provider_arn" {
   description = "OIDC provider ARN used for IAM roles for service accounts."
   value       = module.eks.oidc_provider_arn
 }
+output "oidc_provider" {
+  description = "EKS OIDC provider URL."
+  value       = module.eks.cluster_oidc_issuer_url
+}
