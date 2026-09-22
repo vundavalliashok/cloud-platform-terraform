@@ -92,3 +92,44 @@ output "eks_oidc_provider_arn" {
   description = "EKS OIDC provider ARN."
   value       = module.eks.oidc_provider_arn
 }
+module "iam" {
+  source = "../../modules/iam"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  github_repository = var.github_repository
+
+  create_github_oidc = true
+
+  eks_oidc_provider_arn = module.eks.oidc_provider_arn
+  eks_oidc_provider_url = replace(
+    module.eks.oidc_provider,
+    "https://",
+    ""
+  )
+}
+
+module "rds" {
+  source = "../../modules/rds"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id = module.networking.vpc_id
+
+  vpc_cidr = "10.0.0.0/16"
+
+  private_subnet_ids = module.networking.private_subnet_ids
+
+  database_name = var.database_name
+
+  engine_version = var.database_engine_version
+
+  instance_class = var.database_instance_class
+
+  multi_az = var.database_multi_az
+
+  deletion_protection = false
+  skip_final_snapshot = true
+}

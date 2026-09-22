@@ -55,3 +55,31 @@ variable "node_desired_size" {
   default     = 2
 }
 
+variable "github_repository" {
+  description = "vundavalliashok/repository format."
+  type        = string
+  default     = "vundavalliashok/cloud-platform-terraform"
+}
+variable "database_name" {
+  description = "Application database name."
+  type        = string
+  default     = "platformdb"
+}
+
+variable "database_instance_class" {
+  description = "RDS instance class."
+  type        = string
+  default     = "db.t3.micro"
+}
+
+variable "database_engine_version" {
+  description = "PostgreSQL version."
+  type        = string
+  default     = "16"
+}
+
+variable "database_multi_az" {
+  description = "Whether RDS should use Multi-AZ."
+  type        = bool
+  default     = false
+}
