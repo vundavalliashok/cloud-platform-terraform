@@ -55,3 +55,8 @@ variable "node_desired_size" {
   default     = 2
 }
 
+variable "github_repository" {
+  description = "vundavalliashok/repository format."
+  type        = string
+  default     = "vundavalliashok/cloud-platform-terraform"
+}

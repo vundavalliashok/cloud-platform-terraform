@@ -92,3 +92,21 @@ output "eks_oidc_provider_arn" {
   description = "EKS OIDC provider ARN."
   value       = module.eks.oidc_provider_arn
 }
+module "iam" {
+  source = "../../modules/iam"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  github_repository = var.github_repository
+
+  create_github_oidc = true
+
+  eks_oidc_provider_arn = module.eks.oidc_provider_arn
+  eks_oidc_provider_url = replace(
+    module.eks.oidc_provider,
+    "https://",
+    ""
+  )
+}
+
