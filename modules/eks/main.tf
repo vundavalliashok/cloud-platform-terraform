@@ -5,7 +5,7 @@ module "eks" {
   name               = var.cluster_name
   kubernetes_version = var.cluster_version
 
-  endpoint_public_access  = true
+  endpoint_public_access = false
   endpoint_private_access = true
 
   enable_irsa = true
@@ -66,5 +66,18 @@ module "eks" {
     Environment = var.environment
     ManagedBy   = "Terraform"
     Component   = "EKS"
+  }
+}
+
+resource "aws_kms_key" "eks" {
+  description             = "KMS key for EKS Kubernetes secrets"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-eks"
+    Project     = var.project_name
+    Environment = var.environment
+    ManagedBy   = "Terraform"
   }
 }
