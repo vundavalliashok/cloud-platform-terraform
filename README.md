@@ -100,7 +100,7 @@ Development defaults are declared in `environments/dev/variables.tf` and can be 
 | `aws_region` | `ap-south-1` | AWS deployment region |
 | `environment` | `dev` | Environment name used in resource names and tags |
 | `cluster_version` | `1.33` | EKS Kubernetes version |
-| `node_instance_types` | `[` `t3.medium` `]` | EKS node instance types |
+| `node_instance_types` | `["t3.medium"]` | EKS node instance types |
 | `github_repository` | `vundavalliashok/cloud-platform-terraform` | Repository allowed to assume the GitHub Actions role |
 | `database_name` | `platformdb` | Initial PostgreSQL database name |
 | `database_multi_az` | `false` | Whether RDS uses Multi-AZ |
