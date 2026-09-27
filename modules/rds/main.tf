@@ -61,7 +61,9 @@ resource "aws_db_instance" "postgresql" {
 
   engine         = "postgres"
   engine_version = var.engine_version
-
+  iam_database_authentication_enabled = true
+  performance_insights_enabled = true
+  deletion_protection = var.deletion_protection
   instance_class = var.instance_class
 
   allocated_storage     = var.allocated_storage
