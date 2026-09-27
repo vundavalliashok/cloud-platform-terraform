@@ -5,32 +5,15 @@ module "eks" {
   name               = var.cluster_name
   kubernetes_version = var.cluster_version
 
-  # EKS API endpoint
-  endpoint_public_access  = false
+  endpoint_public_access = false
   endpoint_private_access = true
 
-  # Enable IRSA
   enable_irsa = true
 
   vpc_id     = var.vpc_id
   subnet_ids = var.private_subnet_ids
 
   enable_cluster_creator_admin_permissions = true
-
-  # EKS control-plane logging
-  enabled_log_types = [
-    "api",
-    "audit",
-    "authenticator",
-    "controllerManager",
-    "scheduler"
-  ]
-
-  # Encrypt Kubernetes secrets using customer-managed KMS key
-  encryption_config = {
-    provider_key_arn = aws_kms_key.eks.arn
-    resources        = ["secrets"]
-  }
 
   addons = {
     coredns = {
@@ -64,13 +47,6 @@ module "eks" {
 
       capacity_type = "ON_DEMAND"
 
-      # Enforce IMDSv2
-      metadata_options = {
-        http_endpoint               = "enabled"
-        http_tokens                 = "required"
-        http_put_response_hop_limit = 2
-      }
-
       labels = {
         Environment = var.environment
         Workload    = "general"
@@ -93,7 +69,6 @@ module "eks" {
   }
 }
 
-# Customer-managed KMS key for EKS Kubernetes secrets
 resource "aws_kms_key" "eks" {
   description             = "KMS key for EKS Kubernetes secrets"
   deletion_window_in_days = 7
@@ -105,9 +80,4 @@ resource "aws_kms_key" "eks" {
     Environment = var.environment
     ManagedBy   = "Terraform"
   }
-}
-
-resource "aws_kms_alias" "eks" {
-  name          = "alias/${var.project_name}-${var.environment}-eks"
-  target_key_id = aws_kms_key.eks.key_id
 }
